@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scholarpro-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: scholarpro-backend
+  template:
+    metadata:
+      labels:
+        app: scholarpro-backend
+    spec:
+      containers:
+      - name: scholarpro-backend
+        image: scholarpro-backend:1.0
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scholarpro-backend
+spec:
+  type: NodePort
+  selector:
+    app: scholarpro-backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30080
